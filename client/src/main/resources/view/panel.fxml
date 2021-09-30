@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox prefHeight="337.0" prefWidth="243.0" xmlns="http://javafx.com/javafx/8.0.281" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.balyanova.client.PanelController">
+    <MenuBar>
+        <Menu text="Menu">
+            <MenuItem text="Exit" onAction="#btnExit"/>
+        </Menu>
+    </MenuBar>
+    <HBox fx:id="workPanel" >
+        <VBox HBox.hgrow="ALWAYS">
+            <TextField HBox.hgrow="ALWAYS" text="Client File System" editable="false"/>
+            <HBox VBox.vgrow="ALWAYS">
+                <TextField fx:id="pathClientField" HBox.hgrow="ALWAYS" editable="false"/>
+                <Button text="Up" onAction="#btnUP"/>
+            </HBox>
+            <TableView fx:id="clientsFiles" VBox.vgrow="ALWAYS"/>
+        </VBox>
+        <VBox HBox.hgrow="ALWAYS">
+            <TextField HBox.hgrow="ALWAYS" text="Cloud File System" editable="false" />
+            <HBox>
+                <TextField fx:id="pathCloudField" HBox.hgrow="ALWAYS" editable="false"/>
+            </HBox>
+            <TableView fx:id="cloudFilesOnServer" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </HBox>
+    <HBox VBox.vgrow="ALWAYS">
+        <Button fx:id="downloadButton" focusTraversable="false" text="Download From Cloud" onAction="#download"/>
+        <Button fx:id="uploadButton" focusTraversable="false" text="Upload To Cloud" onAction="#upload"/>
+    </HBox>
+
+</VBox>
