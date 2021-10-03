@@ -1,4 +1,4 @@
-package ru.balyanova;
+package ru.balyanova.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,15 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Command implements Serializable {
 
-    private String commandType;
+    CommandType type;
 
-    private Object[] args;
-
+    public CommandType getType() {
+        return type;
+    }
 }
