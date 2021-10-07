@@ -13,46 +13,38 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class NettyEchoServer2 {
-    //send string
-//receive string
-        public NettyEchoServer2() {
-            EventLoopGroup auth = new NioEventLoopGroup(1);
-            EventLoopGroup worker = new NioEventLoopGroup();
+public class NettyEchoServer2 implements ServerService {
 
-            try {
-                ServerBootstrap bootstrap = new ServerBootstrap();
-                ChannelFuture channelFuture = bootstrap.group(worker, worker)
-                        .channel(NioServerSocketChannel.class)
-                        .childHandler(new ChannelInitializer<SocketChannel>() {
-                            @Override
-                            protected void initChannel(SocketChannel channel) throws Exception {
-                                channel.pipeline().addLast(
-                                        // todo
-                                        new ObjectEncoder(),
-                                        new ObjectDecoder(ClassResolvers.cacheDisabled(null)),
-                                        new CommandInboundHandler()
-//                                        new ObjectEncoder(),
-//                                        new ObjectDecoder(ClassResolvers.cacheDisabled(null)),
-//                                        new FileMessageHandler()
-                                );
-                            }
+    @Override
+    public void startServer() {
+        EventLoopGroup auth = new NioEventLoopGroup(1);
+        EventLoopGroup worker = new NioEventLoopGroup();
 
-                        })
-                        .bind(8189).sync();
-                log.debug("Server started... ");
-                channelFuture.channel().closeFuture().sync(); //block operation
+        try {
+            ServerBootstrap bootstrap = new ServerBootstrap();
+            ChannelFuture channelFuture = bootstrap.group(worker, worker)
+                    .channel(NioServerSocketChannel.class)
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        protected void initChannel(SocketChannel channel) throws Exception {
+                            channel.pipeline().addLast(
+                                    new ObjectEncoder(),
+                                    new ObjectDecoder(ClassResolvers.cacheDisabled(null)),
+                                    new CommandInboundHandler()
+                            );
+                        }
 
-            }catch (Exception e) {
-                log.error("Server exception: " + e);
-            } finally {
-                auth.shutdownGracefully();
-                worker.shutdownGracefully();
-            }
+                    })
+                    .bind(8189).sync();
+            log.debug("Server started... ");
+            channelFuture.channel().closeFuture().sync(); //block operation
+
+        }catch (Exception e) {
+            log.error("Server exception: " + e);
+        } finally {
+            auth.shutdownGracefully();
+            worker.shutdownGracefully();
         }
-
-    public static void main(String[] args) {
-        new NettyEchoServer2();
     }
-    }
+}
 

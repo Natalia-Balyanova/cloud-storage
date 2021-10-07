@@ -1,4 +1,4 @@
-package ru.balyanova;
+package ru.balyanova.core;
 
 import lombok.Getter;
 import lombok.Setter;

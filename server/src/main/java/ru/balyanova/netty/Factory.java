@@ -1,13 +1,11 @@
 package ru.balyanova.netty;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Factory {
 
     public static ServerService getServerService() {
-        return (ServerService) new NettyEchoServer2();
+        return new NettyEchoServer2();
     }
-
-    public static CommandDictionaryService getCommandDictionaryService() {
-        return (CommandDictionaryService) new CommandDictionaryServiceImpl();
-    }
-
 }
