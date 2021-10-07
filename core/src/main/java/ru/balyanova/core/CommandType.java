@@ -1,7 +1,5 @@
 package ru.balyanova.core;
 
-import com.sun.deploy.net.MessageHeader;
-
 public enum CommandType {
     FILE_MESSAGE, //посылка файла возьми файл.. upload/ с клиента на сервер. и на сервере и на клиенте
     FILE_REQUEST, //запрос дай мне файл с именем.. download. только с клиента на сервер
@@ -9,5 +7,5 @@ public enum CommandType {
     LIST_RESPONSE, //ответ держи сам список, клиент принимает только лист респонс. только с севрера на клиент
     PATH_RESPONSE, //сервер отвечает в какой директории находится с параметром. только с севрера на клиент
     PATH_IN_REQUEST, //клиент на сервер шлет запрос пути без параметров. только с клиента на сервер
-    PATH_UP_REQUEST; //наоборот
+    PATH_UP_REQUEST //наоборот
 }

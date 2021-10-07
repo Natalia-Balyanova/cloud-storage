@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="621.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.balyanova.client.PanelController">
+<VBox prefHeight="621.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/8.0.281" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.balyanova.client.PanelController">
     <MenuBar>
         <Menu text="Menu">
             <MenuItem onAction="#btnExit" text="Exit" />
@@ -12,28 +12,28 @@
     </MenuBar>
     <HBox>
         <VBox HBox.hgrow="ALWAYS">
-            <TextField editable="false" text="Client File System" HBox.hgrow="ALWAYS" />
+            <TextField alignment="TOP_CENTER" editable="false" style="-fx-background-color: DARKCYAN; -fx-control-inner-background:PALETURQUOISE; -fx-text-inner-color:white" text="Client File System" HBox.hgrow="ALWAYS" />
             <HBox VBox.vgrow="ALWAYS">
-                <TextField fx:id="pathClientField" editable="false" HBox.hgrow="ALWAYS" />
-                <Button onAction="#btnClientUP" text="Up" />
+                <TextField fx:id="pathClientField" editable="false" HBox.hgrow="ALWAYS" style="-fx-background-color: HONEYDEW" />
+                <Button onAction="#btnClientUP" text="Up"  style="-fx-background-color: CADETBLUE" />
             </HBox>
-            <ListView fx:id="clientsFiles" VBox.vgrow="ALWAYS" />
+            <ListView fx:id="clientsFiles" VBox.vgrow="ALWAYS" style="-fx-control-inner-background:CADETBLUE" />
         </VBox>
         <VBox HBox.hgrow="ALWAYS">
-            <TextField editable="false" text="Cloud File System" HBox.hgrow="ALWAYS" />
+            <TextField alignment="TOP_CENTER" editable="false" style="-fx-background-color: DARKCYAN; -fx-control-inner-background:PALETURQUOISE; -fx-text-inner-color:white" text="Cloud File System" HBox.hgrow="ALWAYS" />
             <HBox>
-                <TextField fx:id="pathCloudField" editable="false" HBox.hgrow="ALWAYS" />
-                <Button onAction="#btnServerUP" text="Up" />
+                <TextField fx:id="pathCloudField" editable="false" HBox.hgrow="ALWAYS" style="-fx-background-color: HONEYDEW"/>
+                <Button onAction="#btnServerUP" text="Up" style="-fx-background-color: PALETURQUOISE" />
             </HBox>
-            <ListView fx:id="cloudFilesOnServer" VBox.vgrow="ALWAYS" />
+            <ListView fx:id="cloudFilesOnServer" VBox.vgrow="ALWAYS" style="-fx-control-inner-background:PALETURQUOISE" />
         </VBox>
     </HBox>
     <HBox>
-        <Button fx:id="downloadButton" onAction="#download" prefHeight="68.0" prefWidth="401.0" text="Download From Cloud" textOverrun="CLIP">
+        <Button fx:id="downloadButton" onAction="#download" style="-fx-background-color: PALETURQUOISE; -fx-control-inner-background:PALETURQUOISE; " prefHeight="68.0" prefWidth="401.0" text="Download From Cloud" textOverrun="CLIP">
          <font>
             <Font size="23.0" />
          </font></Button>
-        <Button fx:id="uploadButton" onAction="#upload" prefHeight="68.0" prefWidth="403.0" text="Upload To Cloud">
+        <Button fx:id="uploadButton" onAction="#upload" style="-fx-background-color: CADETBLUE; -fx-control-inner-background:PALETURQUOISE; " prefHeight="68.0" prefWidth="403.0" text="Upload To Cloud">
          <font>
             <Font size="23.0" />
          </font></Button>
