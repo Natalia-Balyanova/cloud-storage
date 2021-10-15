@@ -17,7 +17,7 @@
                 <TextField fx:id="pathClientField" editable="false" HBox.hgrow="ALWAYS" style="-fx-background-color: HONEYDEW" />
                 <Button onAction="#btnClientUP" text="Up"  style="-fx-background-color: CADETBLUE" />
             </HBox>
-            <ListView fx:id="clientsFiles" VBox.vgrow="ALWAYS" style="-fx-control-inner-background:CADETBLUE" />
+            <ListView fx:id="clientsFiles" VBox.vgrow="ALWAYS"  />
         </VBox>
         <VBox HBox.hgrow="ALWAYS">
             <TextField alignment="TOP_CENTER" editable="false" style="-fx-background-color: DARKCYAN; -fx-control-inner-background:PALETURQUOISE; -fx-text-inner-color:white" text="Cloud File System" HBox.hgrow="ALWAYS" />
@@ -25,7 +25,7 @@
                 <TextField fx:id="pathCloudField" editable="false" HBox.hgrow="ALWAYS" style="-fx-background-color: HONEYDEW"/>
                 <Button onAction="#btnServerUP" text="Up" style="-fx-background-color: PALETURQUOISE" />
             </HBox>
-            <ListView fx:id="cloudFilesOnServer" VBox.vgrow="ALWAYS" style="-fx-control-inner-background:PALETURQUOISE" />
+            <ListView fx:id="cloudFilesOnServer" VBox.vgrow="ALWAYS" />
         </VBox>
     </HBox>
     <HBox>
