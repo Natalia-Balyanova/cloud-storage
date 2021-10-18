@@ -22,7 +22,7 @@ public class FilesInboundHandler extends ChannelInboundHandlerAdapter {
         while (byteBuf.isReadable()) {
             s.append((char) byteBuf.readByte());
         }
-        log.debug("recived: {}", s);
+        log.debug("received: {}", s);
         ctx.fireChannelRead(s.toString());
     }
 }

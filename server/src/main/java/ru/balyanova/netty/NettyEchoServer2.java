@@ -39,12 +39,19 @@ public class NettyEchoServer2 implements ServerService {
             log.debug("Server started... ");
             channelFuture.channel().closeFuture().sync(); //block operation
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("Server exception: " + e);
         } finally {
             auth.shutdownGracefully();
             worker.shutdownGracefully();
+            log.info("Server disconnection");
+            exitServer();
         }
+    }
+
+    @Override
+    public void exitServer() {
+        System.exit(0);
     }
 }
 

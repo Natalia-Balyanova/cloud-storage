@@ -3,23 +3,26 @@ package ru.balyanova.client;
 import io.netty.handler.codec.serialization.ObjectDecoderInputStream;
 import io.netty.handler.codec.serialization.ObjectEncoderOutputStream;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -27,19 +30,29 @@ import ru.balyanova.core.*;
 
 @Slf4j
 public class PanelController implements Initializable {
+    public HBox loginPanel;
+    public TextField loginField;
+    public PasswordField passwordField;
+    public Button signIn;
 
+    public HBox workPanel;
     public ListView<String> clientsFiles;
     public ListView<String> cloudFilesOnServer;
     public TextField pathClientField;
     public TextField pathCloudField;
     public Button uploadButton;
     public Button downloadButton;
+
     private Path currentDir;
     private ObjectDecoderInputStream is;
     private ObjectEncoderOutputStream os;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        workPanel.setVisible(false);
+        uploadButton.setVisible(false);
+        downloadButton.setVisible(false);
+
         try {
             currentDir = Paths.get("client", "root");
 
@@ -79,9 +92,23 @@ public class PanelController implements Initializable {
             });
             daemon.setDaemon(true);
             daemon.start();
-        } catch (IOException ioException) {
-            log.error("ERROR: ", ioException);
+        } catch (Exception e) {
+            log.error("ERROR: ", e);
         }
+    }
+
+    public void login(ActionEvent actionEvent) {
+        loginField.clear();
+        passwordField.clear();
+        changeLoginPanelToWorkPanel();
+    }
+
+
+    public void changeLoginPanelToWorkPanel() {
+        Platform.runLater(() -> loginPanel.setVisible(false));
+        Platform.runLater(() -> workPanel.setVisible(true));
+        Platform.runLater(() -> downloadButton.setVisible(true));
+        Platform.runLater(() -> uploadButton.setVisible(true));
     }
 
     private void updateClientView() throws IOException {
@@ -115,10 +142,16 @@ public class PanelController implements Initializable {
         }
     }
 
-    public void download(ActionEvent actionEvent) throws IOException{
+    public void download(ActionEvent actionEvent) throws IOException {
             String fileName = cloudFilesOnServer.getSelectionModel().getSelectedItem();
-            os.writeObject(new FileRequest(fileName));
-            os.flush();
+            if(fileName != null) {
+                os.writeObject(new FileRequest(fileName));
+                os.flush();
+            } else {
+                log.debug(" .Click on Download without file");
+                Alert alert = new Alert(AlertType.INFORMATION, "File is not selected");
+                alert.showAndWait();
+            }
     }
 
     public void btnClientUP(ActionEvent actionEvent) {
@@ -142,14 +175,19 @@ public class PanelController implements Initializable {
         clientsFiles.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
                 String item = clientsFiles.getSelectionModel().getSelectedItem();
+                if(item == null) {
+                    log.debug("Client clicked on empty field on clientView without file");
+                    return;
+                }
                 Path newPath = currentDir.resolve(item);
                 if (Files.isDirectory(newPath)) {
                     currentDir = newPath;
                     try {
                         updateClientView();
                     } catch (IOException ioException) {
-                        ioException.printStackTrace();
+                        log.error("ERROR " + ioException);
                     }
+
                 }
             }
         });
@@ -157,11 +195,15 @@ public class PanelController implements Initializable {
         cloudFilesOnServer.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
                 String item = cloudFilesOnServer.getSelectionModel().getSelectedItem();
+                if(item == null) {
+                    log.debug("Client clicked on empty field on cloudView without file");
+                    return;
+                }
                 try {
                     os.writeObject(new PathInRequest(item));
                     os.flush();
                 } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                    log.error("ERROR " + ioException);
                 }
             }
         });
@@ -169,5 +211,7 @@ public class PanelController implements Initializable {
 
     public void btnExit(ActionEvent actionEvent) {
         Platform.exit();
+        log.info("Client disconnected");
+        System.exit(0);
     }
 }
