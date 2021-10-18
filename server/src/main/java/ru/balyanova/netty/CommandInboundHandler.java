@@ -32,12 +32,13 @@ public class CommandInboundHandler extends SimpleChannelInboundHandler<Command> 
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         ctx.writeAndFlush(new ListResponse(currentPath));
         ctx.writeAndFlush(new PathResponse(currentPath.toString()));
+        log.debug("Client connected!");
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Command command) throws Exception {
-        log.debug("received: {}", command.getType() );
-        switch(command.getType()) {
+        log.debug("received: {}", command.getType());
+        switch (command.getType()) {
             case FILE_REQUEST:
                 FileRequest fileRequest = (FileRequest) command;
                 FileMessage msg = new FileMessage(currentPath.resolve(fileRequest.getName()));
@@ -68,30 +69,5 @@ public class CommandInboundHandler extends SimpleChannelInboundHandler<Command> 
                 }
                 break;
         }
-
     }
-
-//    private Object createListOfClientFilesInCloud(Command command) {
-//        log.debug("From client FILESLIST");
-//        //List<FileInfo> resultListOfFiles = (List<FileInfo>) dictionaryService.processCommand(command);
-//        //String pathToClientDirectory = command.getArgs()[0] + ":\\";
-//        String pathToClientDirectory = root.toString();
-//        Object[] args = new Object[]{pathToClientDirectory, resultListOfFiles};
-//        return new Command(CommandType.CLOUD_FILESLIST);
-//    }
-
-//    private Object createReadyToDownloadAccept(Command command) {
-//        log.debug("DOWNLOAD " );
-//        //Path pathToFile = ROOT.resolve((String) command.getArgs()[1]).resolve((String) command.getArgs()[0]);
-//
-//        Path pathToFile = currentPath;
-//        String absolutePathOfDownloadFile = pathToFile.toString();
-//
-//        log.debug("READY_TO_DOWNLOAD " );
-//        return new Command(CommandType.READY_TO_DOWNLOAD);
-//    }
-
-
-
-
 }

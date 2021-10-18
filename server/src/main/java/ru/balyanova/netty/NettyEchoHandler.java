@@ -29,6 +29,6 @@ public class NettyEchoHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        log.error("", cause);
+        log.error("Exception: ", cause);
     }
 }
